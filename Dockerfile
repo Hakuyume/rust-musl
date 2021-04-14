@@ -47,15 +47,14 @@ RUN curl https://sh.rustup.rs \
     --no-modify-path \
     --target x86_64-unknown-linux-musl
 
-ENV PATH=${CARGO_HOME}/bin:${PATH} \
+ENV CARGO_BUILD_TARGET=x86_64-unknown-linux-musl \
+    PATH=${CARGO_HOME}/bin:${PATH} \
     PKG_CONFIG_ALLOW_CROSS=true \
     PKG_CONFIG_ALL_STATIC=true \
     X86_64_UNKNOWN_LINUX_MUSL_OPENSSL_DIR=/usr/local/musl/ \
     X86_64_UNKNOWN_LINUX_MUSL_OPENSSL_STATIC=1
 
-RUN cargo install \
-    --git https://github.com/Hakuyume/sccache.git --branch enhance \
-    --all-features --target x86_64-unknown-linux-musl \
+RUN cargo install --git https://github.com/Hakuyume/sccache.git --branch enhance --all-features \
     && rm -rf ${CARGO_HOME}/git/ ${CARGO_HOME}/registry/cache/ ${CARGO_HOME}/registry/src/
 
 ENV RUSTC_WRAPPER=sccache \
