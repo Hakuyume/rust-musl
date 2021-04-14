@@ -1,4 +1,4 @@
-FROM debian:buster-20201209
+FROM debian:buster-20210408
 
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
@@ -8,12 +8,12 @@ RUN apt-get update \
     libssl-dev \
     musl-tools
 
-ARG OPENSSL_VERSION=1.1.1i
+ARG OPENSSL
 RUN mkdir -p /usr/local/musl/include \
     && ln -s /usr/include/x86_64-linux-gnu/asm /usr/local/musl/include/asm \
     && ln -s /usr/include/asm-generic /usr/local/musl/include/asm-generic \
     && ln -s /usr/include/linux /usr/local/musl/include/linux \
-    && TAG=OpenSSL_$(echo ${OPENSSL_VERSION} | perl -pe 's/\./_/g') \
+    && TAG=OpenSSL_$(echo ${OPENSSL} | perl -pe 's/\./_/g') \
     && curl -L https://github.com/openssl/openssl/archive/${TAG}.tar.gz \
     | tar -zxf - \
     && cd openssl-${TAG}/ \
@@ -23,7 +23,7 @@ RUN mkdir -p /usr/local/musl/include \
     && C_INCLUDE_PATH=/usr/local/musl/include/ make -j $(nproc) \
     && make install
 
-FROM debian:buster-20201209
+FROM debian:buster-20210408
 
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \

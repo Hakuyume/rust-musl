@@ -10,13 +10,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - run: docker build . --build-arg TOOLCHAIN=$(cat rust-toolchain)
+      - run: make build
   push:
     if: github.ref == 'refs/heads/master'
     needs: build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - run: docker build . --build-arg TOOLCHAIN=$(cat rust-toolchain) --tag quay.io/hakuyume/rust-musl:$(cat rust-toolchain)
       - run: echo '${{ secrets.QUAY_IO }}' | docker login --username 'hakuyume+github_actions_rust_musl' --password-stdin quay.io
-      - run: docker push quay.io/hakuyume/rust-musl:$(cat rust-toolchain)
+      - run: make push
