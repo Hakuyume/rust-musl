@@ -1,0 +1,21 @@
+name: Docker
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - run: docker build .
+  push:
+    needs: test
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push'
+    steps:
+      - uses: actions/checkout@v2
+      - run: docker build . --build-arg TOOLCHAIN=$(cat rust-toolchain) --tag quay.io/hakuyume/rust-musl:$(cat rust-toolchain)
+      - run: docker push quay.io/hakuyume/rust-musl:$(cat rust-toolchain)
