@@ -2,7 +2,7 @@ REPOSITORY := quay.io/hakuyume/rust-musl
 
 BASE := debian:buster-20210721
 OPENSSL := 1.1.1k
-TOOLCHAIN := 1.57.0
+TOOLCHAIN := 1.58.1
 
 .PHONY: build
 build:
