@@ -54,9 +54,6 @@ ENV CARGO_BUILD_TARGET=x86_64-unknown-linux-musl \
     X86_64_UNKNOWN_LINUX_MUSL_OPENSSL_DIR=/usr/local/musl/ \
     X86_64_UNKNOWN_LINUX_MUSL_OPENSSL_STATIC=1
 
-RUN cargo install --git https://github.com/Hakuyume/sccache.git --branch enhance --all-features \
+ARG SCCACHE
+RUN cargo install --git https://github.com/mozilla/sccache.git --rev ${SCCACHE} --all-features \
     && rm -rf ${CARGO_HOME}/git/ ${CARGO_HOME}/registry/cache/ ${CARGO_HOME}/registry/src/
-
-ENV RUSTC_WRAPPER=sccache \
-    SCCACHE_DIR=/var/cache/sccache/
-ENTRYPOINT ["sh", "-ec", "trap 'sccache --stop-server' EXIT; sccache --start-server; \"$@\"", "--"]
