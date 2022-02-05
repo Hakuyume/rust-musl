@@ -1,7 +1,7 @@
 REPOSITORY := quay.io/hakuyume/rust-musl
 
-BASE := debian:buster-20210721
-OPENSSL := 1.1.1k
+BASE := debian:bullseye-20220125
+OPENSSL := 1.1.1m
 SCCACHE := 8178903
 TOOLCHAIN := 1.58.1
 
