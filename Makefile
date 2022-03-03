@@ -3,7 +3,7 @@ REPOSITORY := quay.io/hakuyume/rust-musl
 BASE := debian:bullseye-20220125
 OPENSSL := 1.1.1m
 SCCACHE := 610ddef
-TOOLCHAIN := 1.58.1
+TOOLCHAIN := 1.59.0
 
 .PHONY: build
 build:
